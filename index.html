@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Management System</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts for Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #448cd5, #67b9d6);
+      color: rgb(248, 243, 243);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Login Page Styles */
+    .login-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-in-out;
+      margin: 20px;
+    }
+
+    .login-container h1 {
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-container p {
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .login-container input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .login-container button {
+      background: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .login-container button:hover {
+      background: #2980b9;
+      transform: translateY(-3px);
+    }
+
+    .error-message {
+      color: #ff6f61;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .login-container .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .login-container .options a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .login-container .options a:hover {
+      color: #fff;
+    }
+
+    .login-container .social-login {
+      margin-top: 20px;
+    }
+
+    .login-container .social-login button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 5px;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .login-container .social-login button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .login-container .language-selector {
+      margin-top: 20px;
+    }
+
+    .login-container .language-selector select {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .login-container .language-selector select option {
+      background: #3498db;
+      color: #fff;
+    }
+
+    .login-container .footer-links {
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    .login-container .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .login-container .footer-links a:hover {
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Dashboard Styles (Hidden Initially) */
+    .container.dashboard {
+      display: none;
+      width: 100%;
+      max-width: 1200px;
+      height: 90vh;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      display: flex;
+      gap: 20px;
+      overflow: hidden;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 20px;
+    }
+
+    .middle-heading {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .middle-heading h2 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .top-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .user-details, .notifications {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .user-details h3, .notifications h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .user-details p, .notifications ul li {
+      margin: 5px 0;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .user-details p strong {
+      color: #ffcc00;
+    }
+
+    .notifications ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .notifications ul li {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .calendar-widget, .weather-widget {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      flex: 1;
+    }
+
+    .calendar-widget h3, .weather-widget h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .calendar-widget p, .weather-widget p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .weather-widget p {
+      margin: 5px 0;
+    }
+
+    .feature-boxes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: rgba(111, 104, 104, 0.1);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+    }
+
+    .recent-activity {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .recent-activity h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .recent-activity ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recent-activity ul li {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .feedback-form {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .feedback-form h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .feedback-form textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .feedback-form button {
+      background: #4582aa;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .feedback-form button:hover {
+      background: #2980b9;
+      transform: translateY(-3px);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #808080; /* Grey background */
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 2rem;
+      color: #333;
+    }
+
+    .modal-content ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .modal-content ul li {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: #333;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .modal-content ul li:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .nested-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nested-modal-content {
+      background: #808080; /* Grey background */
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .nested-modal-content h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .nested-modal-content p {
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .nested-modal-content button {
+      background: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 20px;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .nested-modal-content button:hover {
+      background: #2980b9;
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .introjs-tooltip {
+      background-color: lightorange !important;
+      color: black !important;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .introjs-tooltip .introjs-button {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .introjs-tooltip .introjs-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Right-Side Column for Accessed Services and Time Left */
+    .right-side {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .accessed-services, .time-left-box {
+      background: rgba(173, 216, 230, 0.2); /* Light blue background */
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      height: calc(50% - 10px);
+      overflow-y: auto;
+    }
+
+    .accessed-services h3, .time-left-box h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .accessed-services ul, .time-left-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .accessed-services ul li, .time-left-box ul li {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .time-left-box ul li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .time-left-box ul li span {
+      font-weight: bold;
+      color: #ffcc00;
+    }
+
+    .stopwatch {
+      font-size: 1.2rem;
+      color: #ff6f61;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Page -->
+  <div class="login-container" id="loginPage">
+    <h1>Building Management System</h1>
+    <h2>Welcome Back!</h2>
+    <p>Manage your building operations efficiently with our advanced tools and features. Log in to access your dashboard.</p>
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <div class="options">
+      <label>
+        <input type="checkbox" id="rememberMe"> Remember Me
+      </label>
+      <a href="#">Forgot Password?</a>
+    </div>
+    <button onclick="login()">Login</button>
+    <p class="error-message" id="errorMessage">Invalid username or password.</p>
+    <div class="social-login">
+      <button onclick="loginWithGoogle()"><i class="fab fa-google"></i> Login with Google</button>
+      <button onclick="loginWithFacebook()"><i class="fab fa-facebook"></i> Login with Facebook</button>
+    </div>
+    <p>Don't have an account? <a href="#">Sign up</a></p>
+    <div class="language-selector">
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+      </select>
+    </div>
+    <div class="footer-links">
+      <a href="#">Terms and Conditions</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contact Support</a>
+    </div>
+  </div>
+
+  <!-- Dashboard Page (Hidden Initially) -->
+  <div class="container dashboard" id="dashboard" style="display: none;">
+    <!-- Left Side: Main Content -->
+    <div class="main-content">
+      <!-- Enhanced Main Heading -->
+      <div class="middle-heading" data-intro="Welcome to the Building Management Dashboard!">
+        <h2>Building Management Dashboard</h2>
+        <p style="font-size: 1.2rem; color: #d4ff00; margin-top: 10px;">Your one-stop solution for managing building operations efficiently.</p>
+      </div>
+
+      <!-- Top Section -->
+      <div class="top-section">
+        <!-- User Details (Top-Left) -->
+        <div class="user-details" data-intro="Here are your personal details.">
+          <h3>My Details</h3>
+          <p><strong>Room no:</strong> 101</p>
+          <p><strong>Name:</strong> <span id="userName"></span></p>
+          <p><strong>Phone:</strong> <span id="userPhone"></span></p>
+          <p><strong>Email:</strong> <span id="userEmail"></span></p>
+          <p><strong>Move-in Date:</strong> Jan 15, 2023</p>
+        </div>
+
+        <!-- Notifications (Top-Right) -->
+        <div class="notifications" data-intro="Check your notifications here.">
+          <h3>Notifications</h3>
+          <ul>
+            <li>New Complaint Submitted</li>
+            <li>Bill Paid Successfully</li>
+            <li>Maintenance Request Approved</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Calendar Widget -->
+        <div class="calendar-widget" data-intro="View upcoming events in the calendar.">
+          <h3>Calendar</h3>
+          <p>Upcoming Events:</p>
+          <ul>
+            <li>Oct 15: Elevator Servicing</li>
+            <li>Oct 20: Fire Drill</li>
+          </ul>
+        </div>
+
+        <!-- Weather Widget -->
+        <div class="weather-widget" data-intro="Check the current weather conditions.">
+          <h3>Weather</h3>
+          <p>Sunny, 25°C</p>
+          <p>Humidity: 60%</p>
+          <p>Wind Speed: 10 km/h</p>
+        </div>
+      </div>
+
+      <!-- Feature Boxes -->
+      <div class="feature-boxes">
+        <!-- Peak Hour Lift Optimization -->
+        <div class="card" onclick="showService('Peak Hour Lift Optimization', ['Assign lifts to specific floors.', 'Avoid overcrowding in lifts.'], '5 minutes')" data-intro="Click here to learn about Peak Hour Lift Optimization.">
+          <i class="fas fa-elevator" style="font-size: 2rem; color: #ff6f61;"></i>
+          <h2>Peak Hour Lift Optimization</h2>
+          <p>Reduce wait times during peak hours.</p>
+        </div>
+
+        <!-- Automated Power Shutdown -->
+        <div class="card" onclick="showService('Automated Power Shutdown', ['Detect inactivity on floors.', 'Automatically shut down power.'], '2 minutes')" data-intro="Learn about Automated Power Shutdown here.">
+          <i class="fas fa-power-off" style="font-size: 2rem; color: #955b5b;"></i>
+          <h2>Automated Power Shutdown</h2>
+          <p>Save energy by shutting down unused floors.</p>
+        </div>
+
+        <!-- Building Health Monitoring -->
+        <div class="card" onclick="showService('Building Health Monitoring', ['Detect cracks and vibrations.', 'Alert for maintenance.'], '10 minutes')" data-intro="Discover Building Health Monitoring features.">
+          <i class="fas fa-heartbeat" style="font-size: 2rem; color: #ff6f61;"></i>
+          <h2>Building Health Monitoring</h2>
+          <p>Monitor structural health and safety.</p>
+        </div>
+
+        <!-- Utility Service Management -->
+        <div class="card" onclick="showService('Utility Service Management', ['View utility usage.', 'Manage utility services.'], 'Instant')" data-intro="Manage your utility services here.">
+          <i class="fas fa-tachometer-alt" style="font-size: 2rem; color: #6b5b95;"></i>
+          <h2>Utility Service Management</h2>
+          <p>View and manage utility services.</p>
+        </div>
+
+        <!-- Complaint Management System -->
+        <div class="card" onclick="showService('Complaint Management System', ['Submit complaints.', 'Track complaint status.'], '24-48 hours')" data-intro="Submit and track your complaints here.">
+          <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: #ff6f61;"></i>
+          <h2>Complaint Management System</h2>
+          <p>Submit and track complaints.</p>
+        </div>
+
+        <!-- Resolution Tracking -->
+        <div class="card" onclick="showService('Resolution Tracking', ['Update complaint status.', 'Add comments to resolutions.'], '1 hour')" data-intro="Track your complaint resolutions here.">
+          <i class="fas fa-check-circle" style="font-size: 2rem; color: #6b5b95;"></i>
+          <h2>Resolution Tracking</h2>
+          <p>Update and track complaint resolutions.</p>
+        </div>
+
+        <!-- Dashboard & Analytics -->
+        <div class="card" onclick="showService('Dashboard & Analytics', ['View utility analytics.', 'View complaint analytics.'], 'Instant')" data-intro="View analytics and reports here.">
+          <i class="fas fa-chart-line" style="font-size: 2rem; color: #e37018;"></i>
+          <h2>Dashboard & Analytics</h2>
+          <p>View system analytics and reports.</p>
+        </div>
+
+        <!-- Notification & Alerts -->
+        <div class="card" onclick="showService('Notification & Alerts', ['Push notifications.', 'Email alerts.'], 'Instant')" data-intro="Receive notifications and alerts here.">
+          <i class="fas fa-bell" style="font-size: 2rem; color: #b31515;"></i>
+          <h2>Notification & Alerts</h2>
+          <p>Receive real-time alerts and updates.</p>
+        </div>
+
+        <!-- Payment Integration -->
+        <div class="card" onclick="showService('Payment Integration', ['View bills.', 'Make secure payments.'], '5 minutes')" data-intro="Manage your payments here.">
+          <i class="fas fa-credit-card" style="font-size: 2rem; color: #0fd8db;"></i>
+          <h2>Payment Integration</h2>
+          <p>Pay utility bills securely.</p>
+        </div>
+
+        <!-- Maintenance Scheduling -->
+        <div class="card" onclick="showService('Maintenance Scheduling', ['Schedule maintenance.', 'Notify residents.'], '15 minutes')" data-intro="Schedule maintenance activities here.">
+          <i class="fas fa-calendar-alt" style="font-size: 2rem; color: #6b5b95;"></i>
+          <h2>Maintenance Scheduling</h2>
+          <p>Schedule and manage maintenance activities.</p>
+        </div>
+      </div>
+
+      <!-- Recent Activity Log -->
+      <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <ul id="recentActivityList">
+          <!-- Recent activities will be added dynamically -->
+        </ul>
+      </div>
+
+      <!-- Feedback Form -->
+      <div class="feedback-form">
+        <h3>Feedback</h3>
+        <textarea id="feedbackInput" placeholder="Enter your feedback..."></textarea>
+        <button onclick="submitFeedback()">Submit</button>
+        <p id="feedbackStatus" style="display: none; color: #ffcc00; margin-top: 10px;">Working on your feedback...</p>
+      </div>
+    </div>
+
+    <!-- Right Side: Accessed Services and Time Left -->
+    <div class="right-side">
+      <!-- Accessed Services -->
+      <div class="accessed-services">
+        <h3>Accessed Services</h3>
+        <ul id="accessedServicesList">
+          <!-- Accessed services will be added dynamically -->
+        </ul>
+      </div>
+
+      <!-- Time Left to Solve Problems -->
+      <div class="time-left-box">
+        <h3>Time Left to Solve</h3>
+        <ul id="timeLeftList">
+          <!-- Time left will be added dynamically -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Service Details -->
+  <div id="serviceModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle"></h2>
+      <ul id="modalFeatures"></ul>
+      <p><strong>Estimated Time:</strong> <span id="modalTime"></span></p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Nested Modal for Service Options -->
+  <div id="nestedServiceModal" class="nested-modal">
+    <div class="nested-modal-content">
+      <h3 id="nestedServiceTitle"></h3>
+      <div id="nestedServiceOptions"></div>
+      <button onclick="closeNestedServiceModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Nested Modal for Detailed Info -->
+  <div id="nestedModal" class="nested-modal">
+    <div class="nested-modal-content">
+      <h3 id="nestedModalTitle"></h3>
+      <p id="nestedModalInfo"></p>
+      <button onclick="closeNestedModal()">Close</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/intro.min.js"></script>
+  <script>
+    // Login Function (Accepts any credentials)
+    function login() {
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Simple validation (accepts any non-empty credentials)
+      if (name.trim() === '' || phone.trim() === '' || email.trim() === '' || password.trim() === '') {
+        document.getElementById('errorMessage').style.display = 'block';
+        return;
+      }
+
+      // Hide login page and show dashboard
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'flex';
+
+      // Update user details in the dashboard
+      document.getElementById('userName').innerText = name;
+      document.getElementById('userPhone').innerText = phone;
+      document.getElementById('userEmail').innerText = email;
+
+      startTour(); // Start the onboarding tour
+    }
+
+    // Social Media Login Functions
+    function loginWithGoogle() {
+      alert('Login with Google clicked');
+    }
+
+    function loginWithFacebook() {
+      alert('Login with Facebook clicked');
+    }
+
+    // Start the Intro.js tour
+    function startTour() {
+      introJs().start();
+    }
+
+    // Show Service Details
+    function showService(title, features, time) {
+      document.getElementById('modalTitle').innerText = title;
+      const featuresList = document.getElementById('modalFeatures');
+      featuresList.innerHTML = features.map(feature => `<li onclick="showNestedServiceModal('${feature}')">${feature}</li>`).join('');
+      document.getElementById('modalTime').innerText = time;
+      document.getElementById('serviceModal').style.display = 'flex';
+
+      // Add to recent activity
+      const recentActivityList = document.getElementById('recentActivityList');
+      const activityItem = document.createElement('li');
+      activityItem.innerText = `${title} - ${time}`;
+      recentActivityList.appendChild(activityItem);
+
+      // Keep only the last 4 activities
+      if (recentActivityList.children.length > 4) {
+        recentActivityList.removeChild(recentActivityList.children[0]);
+      }
+
+      // Add to accessed services
+      const accessedServicesList = document.getElementById('accessedServicesList');
+      const serviceItem = document.createElement('li');
+      serviceItem.innerText = `${title} - Accessed at ${new Date().toLocaleTimeString()}`;
+      accessedServicesList.appendChild(serviceItem);
+
+      // Keep only the last 4 accessed services
+      if (accessedServicesList.children.length > 4) {
+        accessedServicesList.removeChild(accessedServicesList.children[0]);
+      }
+
+      // Add to time left to solve
+      const timeLeftList = document.getElementById('timeLeftList');
+      const timeLeftItem = document.createElement('li');
+      timeLeftItem.innerHTML = `
+        <span>${title}</span>
+        <div class="stopwatch">${time}</div>
+      `;
+      timeLeftList.appendChild(timeLeftItem);
+
+      // Keep only the last 4 time left items
+      if (timeLeftList.children.length > 4) {
+        timeLeftList.removeChild(timeLeftList.children[0]);
+      }
+    }
+
+    // Show Nested Service Modal with Options
+    function showNestedServiceModal(feature) {
+      let optionsHTML = '';
+      switch (feature) {
+        case 'Assign lifts to specific floors.':
+          optionsHTML = `
+            <label for="floorSelect">Select Floor:</label>
+            <select id="floorSelect">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button onclick="assignLift()">Assign Lift</button>
+          `;
+          break;
+        case 'Avoid overcrowding in lifts.':
+          optionsHTML = `
+            <label for="maxCapacity">Set Max Capacity:</label>
+            <input type="number" id="maxCapacity" min="1" placeholder="Enter max capacity">
+            <button onclick="setCapacity()">Set Capacity</button>
+          `;
+          break;
+        case 'Detect inactivity on floors.':
+          optionsHTML = `
+            <label for="inactivityToggle">Toggle Inactivity Detection:</label>
+            <input type="checkbox" id="inactivityToggle">
+          `;
+          break;
+        case 'Automatically shut down power.':
+          optionsHTML = `
+            <label for="shutdownToggle">Toggle Power Shutdown:</label>
+            <input type="checkbox" id="shutdownToggle">
+          `;
+          break;
+        case 'Detect cracks and vibrations.':
+          optionsHTML = `
+            <label for="alertToggle">Toggle Alerts:</label>
+            <input type="checkbox" id="alertToggle">
+          `;
+          break;
+        case 'Alert for maintenance.':
+          optionsHTML = `
+            <label for="maintenanceToggle">Toggle Maintenance Alerts:</label>
+            <input type="checkbox" id="maintenanceToggle">
+          `;
+          break;
+        case 'View utility usage.':
+          optionsHTML = `
+            <p>Utility usage data will be displayed here.</p>
+          `;
+          break;
+        case 'Manage utility services.':
+          optionsHTML = `
+            <p>Manage your utility services from here.</p>
+          `;
+          break;
+        case 'Submit complaints.':
+          optionsHTML = `
+            <label for="complaintInput">Enter Complaint:</label>
+            <input type="text" id="complaintInput" placeholder="Type your complaint">
+            <button onclick="submitComplaint()">Submit Complaint</button>
+          `;
+          break;
+        case 'Track complaint status.':
+          optionsHTML = `
+            <p>Track your complaint status here.</p>
+          `;
+          break;
+        case 'Update complaint status.':
+          optionsHTML = `
+            <label for="statusSelect">Select Status:</label>
+            <select id="statusSelect">
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+            <button onclick="updateComplaintStatus()">Update Status</button>
+          `;
+          break;
+        case 'Add comments to resolutions.':
+          optionsHTML = `
+            <label for="resolutionComment">Add Comment:</label>
+            <textarea id="resolutionComment" placeholder="Enter your comment..."></textarea>
+            <button onclick="addResolutionComment()">Add Comment</button>
+          `;
+          break;
+        case 'View utility analytics.':
+          optionsHTML = `
+            <p>Utility analytics data will be displayed here.</p>
+            <img src="path/to/your/utility-analytics-image.jpg" alt="Utility Analytics" style="width: 100%; border-radius: 10px;">
+          `;
+          break;
+        case 'View complaint analytics.':
+          optionsHTML = `
+            <p>Complaint analytics data will be displayed here.</p>
+          `;
+          break;
+        case 'Push notifications.':
+          optionsHTML = `
+            <label for="notificationToggle">Toggle Push Notifications:</label>
+            <input type="checkbox" id="notificationToggle">
+          `;
+          break;
+        case 'Email alerts.':
+          optionsHTML = `
+            <label for="emailInput">Enter Email:</label>
+            <input type="email" id="emailInput" placeholder="Enter your email">
+            <label for="emailToggle">Toggle Email Alerts:</label>
+            <input type="checkbox" id="emailToggle">
+          `;
+          break;
+        case 'View bills.':
+          optionsHTML = `
+            <p>Your bills will be displayed here.</p>
+            <img src="bills.jpg" alt="Bill Image" style="width: 100%; border-radius: 10px;">
+          `;
+          break;
+        case 'Make secure payments.':
+          optionsHTML = `
+            <label for="paymentAmount">Enter Amount:</label>
+            <input type="number" id="paymentAmount" placeholder="Enter amount">
+            <button onclick="makePayment()">Make Payment</button>
+          `;
+          break;
+        case 'Schedule maintenance.':
+          optionsHTML = `
+            <label for="maintenanceDate">Select Date:</label>
+            <input type="date" id="maintenanceDate">
+            <button onclick="scheduleMaintenance()">Schedule</button>
+          `;
+          break;
+        case 'Notify residents.':
+          optionsHTML = `
+            <label for="notificationMessage">Enter Notification Message:</label>
+            <textarea id="notificationMessage" placeholder="Enter message..."></textarea>
+            <button onclick="sendNotification()">Send Notification</button>
+          `;
+          break;
+        default:
+          optionsHTML = '<p>No options available for this feature.</p>';
+      }
+      document.getElementById('nestedServiceTitle').innerText = feature;
+      document.getElementById('nestedServiceOptions').innerHTML = optionsHTML;
+      document.getElementById('nestedServiceModal').style.display = 'flex';
+    }
+
+    // Assign Lift Function
+    function assignLift() {
+      const selectedFloor = document.getElementById('floorSelect').value;
+      alert(`Lift assigned to floor ${selectedFloor}.`);
+      closeNestedServiceModal();
+    }
+
+    // Set Capacity Function
+    function setCapacity() {
+      const maxCapacity = document.getElementById('maxCapacity').value;
+      alert(`Max capacity set to ${maxCapacity}.`);
+      closeNestedServiceModal();
+    }
+
+    // Submit Complaint Function
+    function submitComplaint() {
+      const complaint = document.getElementById('complaintInput').value;
+      alert(`Complaint submitted: ${complaint}`);
+      closeNestedServiceModal();
+    }
+
+    // Update Complaint Status Function
+    function updateComplaintStatus() {
+      const status = document.getElementById('statusSelect').value;
+      alert(`Complaint status updated to: ${status}`);
+      closeNestedServiceModal();
+    }
+
+    // Add Resolution Comment Function
+    function addResolutionComment() {
+      const comment = document.getElementById('resolutionComment').value;
+      alert(`Comment added: ${comment}`);
+      closeNestedServiceModal();
+    }
+
+    // Make Payment Function
+    function makePayment() {
+      const amount = document.getElementById('paymentAmount').value;
+      alert(`Payment of ₹${amount} made successfully.`);
+      closeNestedServiceModal();
+    }
+
+    // Schedule Maintenance Function
+    function scheduleMaintenance() {
+      const date = document.getElementById('maintenanceDate').value;
+      alert(`Maintenance scheduled for ${date}.`);
+      closeNestedServiceModal();
+    }
+
+    // Send Notification Function
+    function sendNotification() {
+      const message = document.getElementById('notificationMessage').value;
+      alert(`Notification sent: ${message}`);
+      closeNestedServiceModal();
+    }
+
+    // Submit Feedback Function
+    function submitFeedback() {
+      const feedbackInput = document.getElementById('feedbackInput');
+      const feedbackStatus = document.getElementById('feedbackStatus');
+      if (feedbackInput.value.trim() === '') {
+        alert('Please enter your feedback.');
+        return;
+      }
+      feedbackStatus.style.display = 'block';
+      setTimeout(() => {
+        feedbackStatus.style.display = 'none';
+        feedbackInput.value = '';
+      }, 3000);
+    }
+
+    // Close Modal when clicked outside
+    document.addEventListener('click', (event) => {
+      const serviceModal = document.getElementById('serviceModal');
+      const nestedServiceModal = document.getElementById('nestedServiceModal');
+      const nestedModal = document.getElementById('nestedModal');
+      if (event.target === serviceModal) {
+        serviceModal.style.display = 'none';
+      }
+      if (event.target === nestedServiceModal) {
+        nestedServiceModal.style.display = 'none';
+      }
+      if (event.target === nestedModal) {
+        nestedModal.style.display = 'none';
+      }
+    });
+
+    // Close Modals
+    function closeModal() {
+      document.getElementById('serviceModal').style.display = 'none';
+    }
+
+    function closeNestedServiceModal() {
+      document.getElementById('nestedServiceModal').style.display = 'none';
+    }
+
+    // Close Nested Modal
+    function closeNestedModal() {
+      document.getElementById('nestedModal').style.display = 'none';
+    }
+
+    // Logout Function
+    function logout() {
+      alert('Logged out successfully!');
+      window.location.href = '/login'; // Redirect to login page
+    }
+  </script>
+</body>
+</html>
